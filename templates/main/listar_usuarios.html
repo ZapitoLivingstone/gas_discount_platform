@@ -1,0 +1,98 @@
+{% extends 'main/base.html' %} {% block content %}
+<h1>Lista de Usuarios</h1>
+
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %} {% if messages %} {% for message in messages %}
+<div class="alert alert-{{ message.tags }}">{{ message }}</div>
+{% endfor %} {% endif %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for usuario in usuarios %}
+    <tr>
+      <td>{{ usuario.id }}</td>
+      <td>{{ usuario.username }}</td>
+      <td>{{ usuario.email }}</td>
+      <td>
+        {% if usuario.groups.first %} {{ usuario.groups.first.name }} {% else %}
+        Sin rol {% endif %}
+      </td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#eliminarModal{{ usuario.id }}"
+        >
+          Eliminar
+        </button>
+
+        <!-- Modal de confirmación -->
+        <div
+          class="modal fade"
+          id="eliminarModal{{ usuario.id }}"
+          tabindex="-1"
+          aria-labelledby="eliminarModalLabel{{ usuario.id }}"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="eliminarModalLabel{{ usuario.id }}">
+                  Confirmar Eliminación
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Cerrar"
+                ></button>
+              </div>
+              <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar al usuario
+                <strong>{{ usuario.username }}</strong> con email
+                <strong>{{ usuario.email }}</strong>?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <form
+                  method="post"
+                  action="{% url 'eliminar_usuario' %}"
+                  style="display: inline"
+                >
+                  {% csrf_token %}
+                  <input
+                    type="hidden"
+                    name="usuario_id"
+                    value="{{ usuario.id }}"
+                  />
+                  <button type="submit" class="btn btn-danger">
+                    Confirmar
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

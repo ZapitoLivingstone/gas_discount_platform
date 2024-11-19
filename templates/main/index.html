@@ -1,0 +1,120 @@
+{% extends 'main/base.html' %} {% block content %}
+<div class="container mt-5">
+  <div class="text-center">
+    <h1 class="display-4 fw-bold">
+      Bienvenido a la Plataforma de Descuentos de Gas
+    </h1>
+    <p class="lead text-muted">
+      Gestiona tus solicitudes y obtén descuentos exclusivos en gas.
+    </p>
+  </div>
+
+  {% if not user.is_authenticated %}
+  <!-- Vista para usuarios no autenticados -->
+  <div class="row mt-4 justify-content-center">
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="card-title fw-bold">Iniciar Sesión</h5>
+          <p class="card-text">
+            Accede a tu cuenta para gestionar tus solicitudes.
+          </p>
+          <a href="{% url 'user_login' %}" class="btn btn-primary w-100"
+            >Iniciar Sesión</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="card-title fw-bold">Registrar</h5>
+          <p class="card-text">
+            Crea una cuenta para disfrutar de los beneficios.
+          </p>
+          <a href="{% url 'register' %}" class="btn btn-secondary w-100"
+            >Registrarse</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="card-title fw-bold">Ingresar Solicitud</h5>
+          <p class="card-text">
+            Envía tus solicitudes de descuento de manera rápida y sencilla.
+          </p>
+          <a href="{% url 'ingresar_solicitud' %}" class="btn btn-success w-100"
+            >Ingresar Solicitud</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+  <!-- Vista para usuarios autenticados -->
+  {% if is_admin %}
+  <!-- Panel de Administrador -->
+  <div class="text-center mt-5">
+    <h2 class="fw-bold">Panel de Administración</h2>
+    <p class="text-muted">
+      Gestiona usuarios, solicitudes y contraseñas desde aquí.
+    </p>
+  </div>
+  <div class="row mt-4 g-3">
+    <div class="col-md-3">
+      <a href="{% url 'listar_solicitudes' %}" class="btn btn-danger w-100"
+        >Listar Solicitudes</a
+      >
+    </div>
+    <div class="col-md-3">
+      <a href="{% url 'listar_usuarios' %}" class="btn btn-warning w-100"
+        >Listar Usuarios</a
+      >
+    </div>
+    <div class="col-md-3">
+      <a href="{% url 'crear_usuario' %}" class="btn btn-primary w-100"
+        >Crear Usuario</a
+      >
+    </div>
+    <div class="col-md-3">
+      <a href="{% url 'gestionar_contraseña' %}" class="btn btn-success w-100"
+        >Restablecer Contraseña</a
+      >
+    </div>
+  </div>
+
+  {% elif is_vendedor %}
+  <!-- Panel de Vendedor -->
+  <div class="text-center mt-5">
+    <h2 class="fw-bold">Panel de Vendedor</h2>
+    <p class="text-muted">
+      Accede a las herramientas de búsqueda de solicitudes.
+    </p>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+      <a href="{% url 'buscar_solicitud' %}" class="btn btn-success w-100"
+        >Buscar Solicitud</a
+      >
+    </div>
+  </div>
+
+  {% elif is_user %}
+  <!-- Panel de Usuario -->
+  <div class="text-center mt-5">
+    <h2 class="fw-bold">Panel de Usuario</h2>
+    <p class="text-muted">Gestiona tus solicitudes fácilmente desde aquí.</p>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+      <a href="{% url 'ingresar_solicitud' %}" class="btn btn-success w-100"
+        >Ingresar Solicitud</a
+      >
+    </div>
+  </div>
+  {% endif %} {% endif %}
+</div>
+{% endblock %}

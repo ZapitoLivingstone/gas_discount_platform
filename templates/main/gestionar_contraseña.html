@@ -1,0 +1,74 @@
+{% extends 'main/base.html' %} {% block content %}
+<div class="container mt-5">
+  <h2 class="text-center">Restablecer Contraseña</h2>
+  <hr />
+
+  <!-- Mostrar mensajes de éxito o error -->
+  {% if messages %}
+  <div class="mb-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Formulario para buscar usuario -->
+  <form method="POST" novalidate>
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo Electrónico</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        class="form-control"
+        placeholder="Ingresa el correo del usuario"
+        required
+      />
+    </div>
+    <button type="submit" name="buscar_usuario" class="btn btn-primary">
+      Buscar Usuario
+    </button>
+  </form>
+
+  <!-- Mostrar información del usuario encontrado -->
+  {% if usuario %}
+  <hr />
+  <h4>Usuario encontrado: {{ usuario.username }}</h4>
+  <p><strong>Correo:</strong> {{ usuario.email }}</p>
+
+  <!-- Formulario para cambiar la contraseña -->
+  <form method="POST" class="mt-4" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="user_id" value="{{ usuario.id }}" />
+    <div class="mb-3">
+      <label for="nueva_contraseña" class="form-label">Nueva Contraseña</label>
+      <input
+        type="password"
+        name="nueva_contraseña"
+        id="nueva_contraseña"
+        class="form-control"
+        placeholder="Ingresa la nueva contraseña"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="confirmar_contraseña" class="form-label"
+        >Confirmar Contraseña</label
+      >
+      <input
+        type="password"
+        name="confirmar_contraseña"
+        id="confirmar_contraseña"
+        class="form-control"
+        placeholder="Confirma la nueva contraseña"
+        required
+      />
+    </div>
+    <button type="submit" name="cambiar_contraseña" class="btn btn-success">
+      Cambiar Contraseña
+    </button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

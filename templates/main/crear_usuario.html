@@ -1,0 +1,108 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3>Crear Nuevo Usuario</h3>
+  </div>
+  <div class="card-body">
+    {% if error_message %}
+    <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+
+    <form action="{% url 'crear_usuario' %}" method="POST" novalidate>
+      {% csrf_token %}
+      
+      <!-- Campo Nombre Completo -->
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre Completo</label>
+        <input
+          type="text"
+          class="form-control {% if form_errors.nombre %}is-invalid{% endif %}"
+          id="nombre"
+          name="nombre"
+          value="{{ request.POST.nombre|default:'' }}"
+          required
+        />
+        {% if form_errors.nombre %}
+        <div class="invalid-feedback">
+          {{ form_errors.nombre }}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo Correo Electrónico -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo Electrónico</label>
+        <input
+          type="email"
+          class="form-control {% if form_errors.email %}is-invalid{% endif %}"
+          id="email"
+          name="email"
+          value="{{ request.POST.email|default:'' }}"
+          required
+        />
+        {% if form_errors.email %}
+        <div class="invalid-feedback">
+          {{ form_errors.email }}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input
+          type="password"
+          class="form-control {% if form_errors.password %}is-invalid{% endif %}"
+          id="password"
+          name="password"
+          required
+        />
+        {% if form_errors.password %}
+        <div class="invalid-feedback">
+          {{ form_errors.password }}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo Confirmar Contraseña -->
+      <div class="mb-3">
+        <label for="confirm_password" class="form-label">Confirmar Contraseña</label>
+        <input
+          type="password"
+          class="form-control {% if form_errors.confirm_password %}is-invalid{% endif %}"
+          id="confirm_password"
+          name="confirm_password"
+          required
+        />
+        {% if form_errors.confirm_password %}
+        <div class="invalid-feedback">
+          {{ form_errors.confirm_password }}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo Rol -->
+      <div class="mb-3">
+        <label for="role" class="form-label">Rol (Opcional)</label>
+        <select
+          name="role"
+          id="role"
+          class="form-control {% if form_errors.role %}is-invalid{% endif %}"
+        >
+          <option value="" {% if request.POST.role == "" %}selected{% endif %}>Sin rol</option>
+          <option value="Administrador" {% if request.POST.role == "Administrador" %}selected{% endif %}>Administrador</option>
+          <option value="Vendedor" {% if request.POST.role == "Vendedor" %}selected{% endif %}>Vendedor</option>
+        </select>
+        {% if form_errors.role %}
+        <div class="invalid-feedback">
+          {{ form_errors.role }}
+        </div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Crear Usuario</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

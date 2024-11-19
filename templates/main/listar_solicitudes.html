@@ -1,0 +1,137 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<h3>Lista de Solicitudes</h3>
+<div class="table-responsive">
+  <table class="table table-bordered table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>RUT</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Fecha Solicitud</th>
+        <th>Estado</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for solicitud in solicitudes %}
+      <tr>
+        <td>{{ solicitud.id }}</td>
+        <td>{{ solicitud.rut }}</td>
+        <td>{{ solicitud.nombre }}</td>
+        <td>{{ solicitud.apellidos }}</td>
+        <td>{{ solicitud.fecha_solicitud|date:"d/m/Y" }}</td>
+        <td>{{ solicitud.estado }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ solicitud.id }}">Editar</button>
+          <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ solicitud.id }}">Eliminar</button>
+        </td>
+      </tr>
+
+      <!-- Modal Editar -->
+      <div class="modal fade" id="editModal{{ solicitud.id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Editar Solicitud</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{% url 'editar_solicitud' solicitud.id %}" novalidate>
+              {% csrf_token %}
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="nombre">Nombre:</label>
+                  <input type="text" class="form-control {% if form_errors.nombre %}is-invalid{% endif %}" name="nombre" value="{{ solicitud.nombre }}" required>
+                  {% if form_errors.nombre %}
+                    <div class="text-danger">
+                      {{ form_errors.nombre }}
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="apellidos">Apellidos:</label>
+                  <input type="text" class="form-control {% if form_errors.apellidos %}is-invalid{% endif %}" name="apellidos" value="{{ solicitud.apellidos }}" required>
+                  {% if form_errors.apellidos %}
+                    <div class="text-danger">
+                      {{ form_errors.apellidos }}
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="estado">Estado:</label>
+                  <select class="form-control {% if form_errors.estado %}is-invalid{% endif %}" name="estado" required>
+                    <option value="PENDIENTE" {% if solicitud.estado == 'PENDIENTE' %}selected{% endif %}>Pendiente</option>
+                    <option value="ACEPTADA" {% if solicitud.estado == 'ACEPTADA' %}selected{% endif %}>Aceptada</option>
+                    <option value="RECHAZADA" {% if solicitud.estado == 'RECHAZADA' %}selected{% endif %}>Rechazada</option>
+                  </select>
+                  {% if form_errors.estado %}
+                    <div class="text-danger">
+                      {{ form_errors.estado }}
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="telefono">Teléfono:</label>
+                  <input type="text" class="form-control {% if form_errors.telefono %}is-invalid{% endif %}" name="telefono" value="{{ solicitud.telefono }}" required>
+                  {% if form_errors.telefono %}
+                    <div class="text-danger">
+                      {{ form_errors.telefono }}
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="direccion">Dirección:</label>
+                  <input type="text" class="form-control {% if form_errors.direccion %}is-invalid{% endif %}" name="direccion" value="{{ solicitud.direccion }}" required>
+                  {% if form_errors.direccion %}
+                    <div class="text-danger">
+                      {{ form_errors.direccion }}
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="comuna">Comuna:</label>
+                  <input type="text" class="form-control {% if form_errors.comuna %}is-invalid{% endif %}" name="comuna" value="{{ solicitud.comuna }}" required>
+                  {% if form_errors.comuna %}
+                    <div class="text-danger">
+                      {{ form_errors.comuna }}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Eliminar -->
+      <div class="modal fade" id="deleteModal{{ solicitud.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteModalLabel">Eliminar Solicitud</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              ¿Estás seguro de que deseas eliminar esta solicitud?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <a href="{% url 'eliminar_solicitud' solicitud.id %}" class="btn btn-danger">Eliminar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<link rel="stylesheet" href="{% static 'static/styles.css' %}">
+{% endblock %}

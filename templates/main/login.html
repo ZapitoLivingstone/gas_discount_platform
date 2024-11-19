@@ -1,0 +1,59 @@
+{% extends 'main/base.html' %} {% block content %} {% load static %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3>Iniciar sesión</h3>
+      </div>
+      <div class="card-body">
+        <form action="{% url 'user_login' %}" method="POST" novalidate>
+          {% csrf_token %}
+
+          <!-- Campo Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input
+              type="email"
+              class="form-control {% if error_email %}is-invalid{% endif %}"
+              id="email"
+              name="email"
+              value="{{ email|default:'' }}"
+              required
+            />
+            {% if error_email %}
+            <div class="invalid-feedback">{{ error_email }}</div>
+            {% endif %}
+          </div>
+
+          <!-- Campo Password -->
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input
+              type="password"
+              class="form-control {% if error_password %}is-invalid{% endif %}"
+              id="password"
+              name="password"
+              required
+            />
+            {% if error_password %}
+            <div class="invalid-feedback">{{ error_password }}</div>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+
+        <div class="mt-3">
+          <a href="{% url 'gestionar_contraseña' %}" class="btn btn-link"
+            >¿Olvidaste la contraseña?</a
+          >
+          <br />
+          <a href="{% url 'register' %}" class="btn btn-link"
+            >¿No tienes cuenta? Regístrate aquí</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

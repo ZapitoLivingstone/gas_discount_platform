@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gas Discount Platform</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .navbar-brand img {
+        height: 40px;
+      }
+      .navbar {
+        background-color: #f8f9fa;
+      }
+      .navbar-nav .nav-link {
+        font-weight: bold;
+      }
+      .navbar .btn-login {
+        background-color: #0275d8;
+        color: white;
+        font-weight: bold;
+      }
+      .navbar .btn-login:hover {
+        background-color: #025aa5;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"> Plataforma Gas Licuado </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" href="/">Inicio</a>
+            </li>
+            {% if not user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user_login' %}"
+                >Iniciar sesión</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Registrar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'ingresar_solicitud' %}"
+                >Ingresar Solicitud</a
+              >
+            </li>
+            {% else %} {% if is_admin %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'listar_solicitudes' %}"
+                >Listar Solicitudes</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'listar_usuarios' %}"
+                >Listar Usuarios</a
+              >
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'perfil' %}">Perfil</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-sm btn-login" href="{% url 'user_logout' %}"
+                >Cerrar sesión</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <!-- Contenido específico de cada página -->
+      {% block content %} {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

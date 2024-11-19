@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %} {% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3>Editar Perfil</h3>
+  </div>
+  <div class="card-body">
+    <form action="{% url 'perfil' %}" method="POST" novalidate>
+      {% csrf_token %}
+
+      <!-- Campo Nombre -->
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input
+          type="text"
+          class="form-control {% if form_errors.nombre %}is-invalid{% endif %}"
+          id="nombre"
+          name="username"
+          value="{{ form.username.value|default:request.user.username }}"
+          required
+        />
+        {% if form_errors.nombre %}
+        <div class="invalid-feedback">{{ form_errors.nombre }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Campo Correo Electrónico -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo Electrónico</label>
+        <input
+          type="email"
+          class="form-control {% if form_errors.email %}is-invalid{% endif %}"
+          id="email"
+          name="email"
+          value="{{ form.email.value|default:request.user.email }}"
+          required
+        />
+        {% if form_errors.email %}
+        <div class="invalid-feedback">{{ form_errors.email }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Nueva Contraseña</label>
+        <input
+          type="password"
+          class="form-control {% if form_errors.password %}is-invalid{% endif %}"
+          id="password"
+          name="password"
+        />
+        <small class="text-muted"
+          >Deja en blanco para mantener la contraseña actual.</small
+        >
+        {% if form_errors.password %}
+        <div class="invalid-feedback">{{ form_errors.password }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Campo Confirmar Contraseña -->
+      <div class="mb-3">
+        <label for="password2" class="form-label"
+          >Confirmar Nueva Contraseña</label
+        >
+        <input
+          type="password"
+          class="form-control {% if form_errors.confirm_password %}is-invalid{% endif %}"
+          id="password2"
+          name="password2"
+        />
+        {% if form_errors.confirm_password %}
+        <div class="invalid-feedback">{{ form_errors.confirm_password }}</div>
+        {% endif %}
+      </div>
+
+      <div class="text-end">
+        <button type="submit" class="btn btn-primary">Actualizar Perfil</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

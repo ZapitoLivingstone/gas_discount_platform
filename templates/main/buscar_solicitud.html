@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %} {% block title %}Buscar Solicitud{% endblock %}
+{% block content %}
+<h2>Buscar Solicitud por RUT</h2>
+<div class="card mt-4">
+  <div class="card-header">
+    <h5 class="mb-0">Formulario de Búsqueda</h5>
+  </div>
+  <div class="card-body">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="rut">RUT</label>
+        <input type="text" class="form-control" id="rut" name="rut" required />
+        {% if error_message %}
+        <div class="alert alert-danger mt-2" role="alert">
+          {{ error_message }}
+        </div>
+        {% endif %}
+      </div>
+      <button type="submit" class="btn btn-primary mt-3">Buscar</button>
+    </form>
+  </div>
+</div>
+
+{% if solicitudes %}
+<h3 class="mt-4">Resultados de la Búsqueda:</h3>
+<div class="row mt-3">
+  {% for solicitud in solicitudes %}
+  <div class="col-md-4 mb-3">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Solicitud RUT {{ solicitud.rut }}</h5>
+      </div>
+      <div class="card-body">
+        <p><strong>Estado:</strong> {{ solicitud.estado }}</p>
+        <p>
+          <strong>Fecha de Solicitud:</strong> {{ solicitud.fecha_solicitud }}
+        </p>
+        <a
+          href="{% url 'detalle_solicitud' solicitud.rut %}"
+          class="btn btn-primary"
+          >Ver Detalles</a
+        >
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% elif solicitudes is not None %}
+<div class="card mt-4">
+  <div class="card-body">
+    <p>No se encontraron solicitudes con ese RUT.</p>
+  </div>
+</div>
+{% endif %} {% endblock %}

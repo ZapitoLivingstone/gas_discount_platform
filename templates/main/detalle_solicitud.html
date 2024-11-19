@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %} {% block title %}Detalle de Solicitud
+{%endblock%} {% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="mb-0">Detalle de la Solicitud</h4>
+    </div>
+    <div class="card-body">
+      <p><strong>RUT:</strong> {{ solicitud.rut }}</p>
+      <p><strong>Nombre:</strong> {{ solicitud.nombre }}</p>
+      <p><strong>Apellidos:</strong> {{ solicitud.apellidos }}</p>
+      <p><strong>Dirección:</strong> {{ solicitud.direccion }}</p>
+      <p><strong>Teléfono:</strong> {{ solicitud.telefono }}</p>
+      <p><strong>Comuna:</strong> {{ solicitud.comuna }}</p>
+      <p>
+        <strong>Fecha de Solicitud:</strong> {{ solicitud.fecha_solicitud }}
+      </p>
+      {% if solicitud.fecha_aceptacion %}
+      <p>
+        <strong>Fecha de Aceptación:</strong> {{ solicitud.fecha_aceptacion }}
+      </p>
+      {% else %}
+      <p><strong>Fecha de Aceptación:</strong> No Aceptada</p>
+      {% endif %}
+      <p><strong>Estado:</strong> {{ solicitud.estado }}</p>
+      {% if solicitud.usuario %} {% endif %}
+      <a href="{% url 'buscar_solicitud' %}">Volver</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

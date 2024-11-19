@@ -1,0 +1,53 @@
+/* Estilo general del contenedor del formulario */
+.container {
+    max-width: 600px; /* Limitar el ancho del formulario */
+    margin: 0 auto; /* Centrar el formulario en la página */
+    padding: 20px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde alrededor del formulario */
+    border-radius: 8px; /* Bordes redondeados */
+    background-color: #f9f9f9; /* Color de fondo suave */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Estilo para los campos de entrada */
+.form-control {
+    border: 1px solid #ced4da; /* Borde estándar */
+    border-radius: 4px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    transition: border-color 0.3s; /* Transición suave para el borde */
+}
+
+.form-control:focus {
+    border-color: #80bdff; /* Color del borde al enfocar */
+    outline: none; /* Sin contorno */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra al enfocar */
+}
+
+/* Estilo para los mensajes de error */
+.text-danger {
+    font-size: 0.8rem; /* Tamaño de fuente más pequeño */
+    margin-top: 5px; /* Espaciado superior */
+}
+
+/* Estilo para el botón de envío */
+.btn-primary {
+    background-color: #007bff; /* Color de fondo del botón */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    color: white; /* Color del texto */
+    font-size: 1rem; /* Tamaño de fuente */
+    transition: background-color 0.3s;
+    margin-top: 20px; /* Transición suave para el color de fondo */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    margin-top: 20px; /* Color de fondo al pasar el ratón */
+}
+
+/* Estilo para el encabezado del formulario */
+h2 {
+    text-align: center; /* Centrar el título */
+    margin-bottom: 20px; /* Espaciado inferior */
+}
